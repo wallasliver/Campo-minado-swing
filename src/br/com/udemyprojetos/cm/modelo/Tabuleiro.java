@@ -7,9 +7,9 @@ import java.util.function.Predicate;
 
 public class Tabuleiro implements CampoObservador {
 	
-	private int linhas;
-	private int colunas;
-	private int minas;
+	private final int linhas;
+	private final int colunas;
+	private final int minas;
 	
 	private final List<Campo> campos = new ArrayList<>();
 	private final List<Consumer<ResultadoEvento>> observadores =
@@ -26,6 +26,10 @@ public class Tabuleiro implements CampoObservador {
 		associarVizinhos();
 		sortearAsMinas();
 	} 
+	
+	public void paraCadaCampo(Consumer<Campo> funcao) {
+		campos.forEach(funcao);
+	}
 	
 	public void registrarObservador(Consumer<ResultadoEvento> observador) {
 	  observadores.add(observador);	
@@ -81,6 +85,7 @@ public class Tabuleiro implements CampoObservador {
 		
 		do {
 			int aleatorio = (int) (Math.random() * campos.size());
+			
 			campos.get(aleatorio).minar();
 			minasArmadas = campos.stream().filter(minado).count();
 		} while(minasArmadas < minas);
@@ -96,11 +101,21 @@ public class Tabuleiro implements CampoObservador {
 		sortearAsMinas();
 	}
 	
+	
+	public int getLinhas() {
+		return linhas;
+	}
+
+	public int getColunas() {
+		return colunas;
+	}
+
 	@Override
 	public void eventoOcorreu(Campo campo, CampoEvento evento) {
 		if(evento == CampoEvento.EXPLODIR) {
+			mostrarMinas();
 			notificarObservadores(false);
-		} else if(objetivoAlcancado()){
+		}else if(objetivoAlcancado()){
 			notificarObservadores(true); 
 		}
 		
@@ -109,6 +124,7 @@ public class Tabuleiro implements CampoObservador {
 	private void mostrarMinas() {
 		campos.stream()
 		.filter(c -> c.isMinado())
+		.filter(c -> !c.isMarcado())
 		.forEach(c -> c.setAberto(true));
 		
 	}
