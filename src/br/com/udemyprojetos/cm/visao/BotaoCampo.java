@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import br.com.udemyprojetos.cm.modelo.Campo;
 import br.com.udemyprojetos.cm.modelo.CampoEvento;
@@ -17,7 +18,7 @@ implements CampoObservador, MouseListener {
 
 	
 	
-	private final Color BG_PADRAO = new Color (184, 184, 184);
+	private final Color BG_PADRAO = new Color (184, 184, 185);
 	private final Color BG_MARCADO = new Color (8, 179, 247);
 	private final Color BG_EXPLOSAO = new Color (189, 66, 68);
 	private final Color TEXTO_VERDE = new Color (0, 100, 0);
@@ -45,17 +46,18 @@ implements CampoObservador, MouseListener {
 	 break;
  case EXPLODIR:
 	 aplicarEstiloExplodir();
-	 break;
-	 
+	 break; 
  default:
-	 
-	 
-     aplicarEstiloPadrao();
-		 
-      }
+     aplicarEstiloPadrao();		 
    }
+   SwingUtilities.invokeLater(() -> {
+	 
+	 repaint();
+	 validate();
+   });
+ }
 	
-	private void aplicarEstiloPadrao() {
+private void aplicarEstiloPadrao() {
 		setBackground(BG_PADRAO);
 		setBorder(BorderFactory.createBevelBorder(0));
 		setText("");

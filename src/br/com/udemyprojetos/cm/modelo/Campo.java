@@ -117,7 +117,7 @@ public class Campo {
 			notificarObservadores(CampoEvento.ABRIR);
 		}
 	}
-
+//Wallas
 	public boolean isAberto() {
 		return aberto;
 	}
