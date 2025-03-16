@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 
 public class Tabuleiro implements CampoObservador {
 	
+	///Tabuleiro Wallas
+	
 	private final int linhas;
 	private final int colunas;
 	private final int minas;
