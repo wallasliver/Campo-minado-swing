@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 public class Tabuleiro implements CampoObservador {
 	
-	///Tabuleiro Wallas
+	/// Teste sync com rep remoto
 	
 	private final int linhas;
 	private final int colunas;
